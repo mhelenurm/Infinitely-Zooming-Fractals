@@ -1,6 +1,5 @@
 package fractals;
 
-import static fractals.FractalImageRenderer.gradient;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,14 +14,11 @@ import javax.swing.Timer;
 
 public class FractalInteractive extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-    Color[] colors = new Color[]{Color.WHITE, Color.RED, Color.PINK, Color.BLUE, Color.GREEN, Color.BLACK};
-    
     int width, height;
     int mx, my;
     boolean mousein = false;
     final int MAX_ITERATIONS = 200;
     double cx, cy, w, h;
-    Timer t;
 
     public FractalInteractive(int width, int height) {
         this.width = width;
@@ -61,14 +57,8 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
                 double b = initb;
                 int iterations = 0;
                 while (a * a + b * b < 4.0) {
-                    double newa = a*a-b*b  +inita;//+inita;
-                    double newb = 2*a*b + initb;//+initb;
-                    //double newa = a * nnewa - nnewb*b + inita;
-                    //double newb = nnewb*a + b*nnewa + initb;
-                    
-                    //double ea = Math.pow(Math.E, a);
-                    //double newa = ea * Math.cos(b);
-                    //double newb = ea * Math.sin(b);
+                    double newa = a*a-b*b  +inita;
+                    double newb = 2*a*b + initb;
                     a = newa;
                     b = newb;
                     iterations++;
@@ -78,10 +68,9 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
                 }
     
                 double percent = (double) iterations / (double) MAX_ITERATIONS;
-                //Color c = gradient(percent, new Color(48, 48, 48), new Color(122, 205, 166));
-                //Color c = gradient(percent, new Color(255, 255, 255), new Color(0, 0, 0));
                 percent = Math.pow(percent, .333);
-                Color c = hueGrad(percent);
+                
+                Color c = gradient(percent, Color.WHITE, Color.BLACK);
                 g.setColor(c);
                 g.fillRect(i, j, 1, 1);
             }
