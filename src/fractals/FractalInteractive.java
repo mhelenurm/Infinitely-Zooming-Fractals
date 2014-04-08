@@ -20,7 +20,7 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
     int width, height;
     int mx, my;
     boolean mousein = false;
-    final int MAX_ITERATIONS = 255;
+    final int MAX_ITERATIONS = 200;
     double cx, cy, w, h;
     Timer t;
 
@@ -79,7 +79,9 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
     
                 double percent = (double) iterations / (double) MAX_ITERATIONS;
                 //Color c = gradient(percent, new Color(48, 48, 48), new Color(122, 205, 166));
-                Color c = gradient(percent, new Color(255, 255, 255), new Color(0, 0, 0));
+                //Color c = gradient(percent, new Color(255, 255, 255), new Color(0, 0, 0));
+                percent = Math.pow(percent, .333);
+                Color c = hueGrad(percent);
                 g.setColor(c);
                 g.fillRect(i, j, 1, 1);
             }
@@ -88,6 +90,9 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        double nxx = w*((double)e.getX()/(double)width-0.5)+cx;
+        double nyy = h*((double)e.getY()/(double)height-0.5)+cy;
+        System.out.println(nxx + " " + ((nyy<0)?"-":"+")+" "+Math.abs(nyy)+ "i");
     }
 
     @Override
@@ -149,5 +154,12 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
         int g = c1.getBlue() + (int) (percent * ((double) c2.getBlue() - (double) c1.getBlue()));
         int b = c1.getGreen() + (int) (percent * ((double) c2.getGreen() - (double) c1.getGreen()));
         return new Color(r, g, b);
+    }
+    public static Color hueGrad(double percent) {
+        if(percent == 1.0) {
+            percent = .999;
+        }
+        int color = Color.HSBtoRGB((float)percent, 1.0f, (float)percent);
+        return new Color(color);
     }
 }
