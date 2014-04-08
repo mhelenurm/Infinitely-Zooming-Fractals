@@ -15,10 +15,12 @@ import javax.swing.Timer;
 
 public class FractalInteractive extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
 
+    Color[] colors = new Color[]{Color.WHITE, Color.RED, Color.PINK, Color.BLUE, Color.GREEN, Color.BLACK};
+    
     int width, height;
     int mx, my;
     boolean mousein = false;
-    final int MAX_ITERATIONS = 1000;
+    final int MAX_ITERATIONS = 255;
     double cx, cy, w, h;
     Timer t;
 
@@ -59,8 +61,8 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
                 double b = initb;
                 int iterations = 0;
                 while (a * a + b * b < 4.0) {
-                    double newa = a*a-b*b+inita;//+inita;
-                    double newb = 2*a*b+initb;//+initb;
+                    double newa = a*a-b*b  +inita;//+inita;
+                    double newb = 2*a*b + initb;//+initb;
                     //double newa = a * nnewa - nnewb*b + inita;
                     //double newb = nnewb*a + b*nnewa + initb;
                     
@@ -74,8 +76,10 @@ public class FractalInteractive extends JPanel implements MouseListener, MouseMo
                         break;
                     }
                 }
+    
                 double percent = (double) iterations / (double) MAX_ITERATIONS;
-                Color c = gradient(percent, new Color(48, 48, 48), new Color(122, 205, 166));
+                //Color c = gradient(percent, new Color(48, 48, 48), new Color(122, 205, 166));
+                Color c = gradient(percent, new Color(255, 255, 255), new Color(0, 0, 0));
                 g.setColor(c);
                 g.fillRect(i, j, 1, 1);
             }
